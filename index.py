@@ -44,4 +44,5 @@ dfs = [df1, df2, df3]
 
 final_df = reduce(lambda  left,right: pd.merge(left,right,
                 on=['validdate','t_2m:C', 'precip_1h:mm','wind_speed_10m:ms','lat','lon'],how='outer'), dfs)
+final_df = final_df.rename(columns = {'t_2m:C':'temp', 'precip_1h:mm':'precip', 'wind_speed_10m:ms':'wind'})
 print(final_df.dtypes)
