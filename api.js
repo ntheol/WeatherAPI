@@ -35,37 +35,15 @@ app.get('/latest_forecast', (req, res) => {
     });
 });
 
-sql_avg1 = "SELECT lat,lon,AVG(temp) FROM forecast WHERE validdate ='2022-09-07 23:00:00' OR validdate ='2022-09-08 23:00:00' OR validdate ='2022-09-09 23:00:00' AND lat = '36.831898' AND lon = '25.86146'";
-sql_avg2 = "SELECT lat,lon,AVG(temp) FROM forecast WHERE validdate ='2022-09-07 23:00:00' OR validdate ='2022-09-08 23:00:00' OR validdate ='2022-09-09 23:00:00' AND lat = '37.9161078' AND lon = '23.726803'";
-sql_avg3 = "SELECT lat,lon,AVG(temp) FROM forecast WHERE validdate ='2022-09-07 23:00:00' OR validdate ='2022-09-08 23:00:00' OR validdate ='2022-09-09 23:00:00' AND lat = '55.709287' AND lon = '12.580577'";
+sql_avg = "SELECT lat,lon,AVG(temp) FROM forecast WHERE validdate ='2022-09-07 23:00:00' OR validdate ='2022-09-08 23:00:00' OR validdate ='2022-09-09 23:00:00' GROUP BY lat"
 
-app.get('/avg_temp1', (req, res) => {
-    con.query(sql_avg1,function(err, result){ 
+app.get('/avg_temp', (req, res) => {
+    con.query(sql_avg,function(err, result){ 
         if (err) {
             response.end();
             return;
         }
         res.send(result);
-    });
-});
-
-app.get('/avg_temp2', (req, res) => {
-    con.query(sql_avg2,function(err, result2){ 
-        if (err) {
-            response.end();
-            return;
-        }
-        res.send(result2);
-    });
-});
-
-app.get('/avg_temp3', (req, res) => {
-    con.query(sql_avg3,function(err, result3){ 
-        if (err) {
-            response.end();
-            return;
-        }
-        res.send(result3);
     });
 });
 
