@@ -1,5 +1,4 @@
 import datetime as dt
-from pickle import TRUE
 import meteomatics.api as api
 import pandas as pd 
 from functools import reduce

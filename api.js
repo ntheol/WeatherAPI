@@ -48,22 +48,49 @@ app.get('/avg_temp', (req, res) => {
 });
 
 
-sql_maxt = "SELECT lat,lon From forecast WHERE temp = (SELECT MAX(temp) FROM Forecast)";
-sql_maxp = "SELECT lat,lon From forecast WHERE precip = (SELECT MAX(precip) FROM Forecast)";
-sql_maxw = "SELECT lat,lon From forecast WHERE wind = (SELECT MAX(wind) FROM Forecast)";
+sql_maxt1 = "SELECT lat,lon,MAX(temp) FROM Forecast GROUP BY lat ORDER BY MAX(temp) DESC LIMIT 1";
+sql_maxt2 = "SELECT lat,lon,MAX(temp) FROM Forecast GROUP BY lat ORDER BY MAX(temp) DESC LIMIT 2";
+sql_maxt3 = "SELECT lat,lon,MAX(temp) FROM Forecast GROUP BY lat ORDER BY MAX(temp) DESC LIMIT 3";
 
-app.get('/max_temp', (req, res) => {
-    con.query(sql_maxt,function(err, result){ 
-        if (err) {
-            response.end();
-            return;
-        }
-        res.send(result);
-    });
+
+
+sql_maxp = "SELECT lat,lon,MAX(precip) FROM Forecast GROUP BY lat ORDER BY MAX(precip) DESC";
+sql_maxw = "SELECT lat,lon,MAX(wind) FROM Forecast GROUP BY lat ORDER BY MAX(wind) DESC";
+
+app.get('/top_loc/:n', (req, res) => {
+    var n = req.params.n;
+    if (n==1){
+        con.query(sql_maxt1,function(err, result){ 
+            if (err) {
+                response.end();
+                return;
+            }
+            res.send(result);
+        });
+    }
+    else if (n==2){
+        con.query(sql_maxt2,function(err, result){ 
+            if (err) {
+                response.end();
+                return;
+            }
+            res.send(result);
+        });        
+    }
+    else if (n==3){
+        con.query(sql_maxt2,function(err, result){ 
+            if (err) {
+                response.end();
+                return;
+            }
+            res.send(result);
+        });        
+    }
+    else {console.log("Request Failed")}
 });
 
 app.get('/max_prec', (req, res) => {
-    con.query(sql_maxp,function(err, result){ 
+    con.query(sql_maxp + "LIMIT 2",function(err, result){ 
         if (err) {
             response.end();
             return;
