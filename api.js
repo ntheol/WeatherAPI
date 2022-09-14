@@ -78,7 +78,7 @@ app.get('/top_loc/:n', (req, res) => {
         });        
     }
     else if (n==3){
-        con.query(sql_maxt2,function(err, result){ 
+        con.query(sql_maxt3,function(err, result){ 
             if (err) {
                 response.end();
                 return;
